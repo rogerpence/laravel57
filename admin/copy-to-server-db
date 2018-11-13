@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# 1. Dump local DB.
+mysqldump -u roger homestead > local.sql
+
+# 2. Copy it to /var/www/local.sql on Droplet.
+scp local.sql roger@$DORP:/var/www
+
+# 3. Import it into remote DB.
+ssh roger@$DORP "cd /var/www;mysql -u roger homestead < local.sql"

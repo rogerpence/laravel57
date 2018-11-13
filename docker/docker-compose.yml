@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context:
+        .
+      dockerfile:
+        ./app-dockerfile
+    image: rp/app:latest
+    networks:
+      - appnet
+    volumes:
+      - ../../application:/var/www/html
+    ports:
+      - 8080:80
+  cache:
+    image: redis:alpine
+    networks:
+      - appnet
+    volumes:
+      - cachedata:/data
+  db:
+    image: mariadb:10.3.10-bionic
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: roger
+      MYSQL_PASSWORD: roger
+    networks:
+      - appnet
+    volumes:
+      - dbdata:/var/lib/mysql
+  myphpadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    networks:
+      - appnet
+    ports:
+      - 8020:80
+    depends_on:
+      - db
+networks:
+  appnet:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
+  cachedata:
+    driver: local

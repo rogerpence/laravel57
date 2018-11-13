@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# 1. Dump remote DB.
+ssh roger@$DORP 'cd /var/www;mysqldump -u roger homestead > do.sql'
+
+# 2. Copy it to current folder on local PC as do.sql.
+#scp roger@$DORP:/var/www/do.sql .
+
+# 3. Import it into local DB.
+#mysql -u roger homestead < do.sql

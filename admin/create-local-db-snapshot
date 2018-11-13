@@ -1,0 +1,7 @@
+NOW=$(date +%F_%T)
+FILENAME="db$NOW".sql
+
+mysqldump -u roger homestead > ~/Projects/homestead/$FILENAME
+
+#creates a database on server dump named:
+#db2017-12-16_22:26:18.sql
